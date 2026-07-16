@@ -1,0 +1,146 @@
+# PaperMod
+
+baseURL: 'https://hengjian2026.github.io/HJianBlog/'
+title: HJianBlog
+theme: PaperMod
+
+paginate: 20
+languageCode: zh-cn
+defaultContentLanguage: zh
+defaultContentLanguageInSubdir: false
+
+enableEmoji: true
+enableRobotsTXT: true
+
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+buildExpiredAfter: 0
+
+googleAnalytics:
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+menu:
+  main:
+    - identifier: archives
+      name: 归档
+      url: /archives/
+      weight: 10
+    - identifier: about
+      name: 关于
+      url: /about/
+      weight: 20
+
+params:
+  env: production
+  title: "恒健知行 - 个人博客"
+  description: "个人知识管理与实践分享 | 公众号同步更新"
+  keywords: [医院运营, DRG, DIP, 数据分析, 医疗信息化]
+  author: 恒健知行
+  images: [images/placeholder.png]
+  ShowFullText: false
+  DateFormat: 2006-01
+  defaultTheme: auto
+  disableThemeToggle: false
+  ShowReadingTime: true
+  ShowPostDate: true
+  ShowWordCount: true
+  ShowToc: true
+  TocOpen: false
+  ShowBreadcrumb: false
+  ShowCodeCopyButton: true
+  ShowAllPagesFromEndpoint: false
+  homeInfoParams:
+    Title: "恒健知行 - 个人博客"
+    Content: "个人知识管理与实践分享 | 公众号同步更新\n\n本站内容同步自微信公众号「恒健知行」。\n\n技术栈：Hugo + PaperMod + GitHub Pages\n\n部署：每次推送到 main 分支后，GitHub Actions 会自动构建并发布到 GitHub Pages。"
+  socials:
+  fawas: true
+  profileMode:
+    enabled: false
+  assets:
+    disableHLJS: false
+    favicon:
+    favicon16x16: 16x16.png
+    favicon32x32: 32x32.png
+    apple_touch_icon: apple-touch-icon.png
+    safari_pinned_tab: safari-pinned-tab.svg
+  labels:
+    archive sidebar:
+    search sidebar:
+  cover:
+    hidden: false
+    hiddenInList: false
+    hiddenInSingle: false
+  share:
+  analytics:
+    googleTagManager:
+    googleSiteVerificationTag:
+    naverVerificationTag:
+    bingVerificationTag:
+    yandexVerificationTag:
+    fathomAnalytics:
+    clarity:
+    goatCounter:
+    buiAnalytics:
+  comments: false
+  search:
+    enabled: false
+    settings:
+      datasource:
+      maxResultLength: 10
+      minLengthOfQuery: 2
+      snippetLength: 50
+      highlightSyntax:
+        hidePlaceholder: true
+        telemetry: false
+        option: lunr
+  mainSections:
+  dateLayout:
+    live:
+    changed:
+  templates:
+    home:
+    search:
+    twitter_cards:
+    opengraph:
+    share:
+    rss:
+    single:
+
+outputFormats:
+  SearchIndex:
+    mediaType: application/json
+    baseName: search-index
+    replaceExt: true
+    isHTML: true
+
+outputs:
+  home: [HTML, SearchIndex, RSS, JSON]
+  section: [HTML, RSS]
+
+taxonomies:
+  tag: tags
+  category: categories
+
+privacy:
+  googleAnalytics:
+  instagram:
+  twitter:
+  youtube:
+
+services:
+  instagram:
+  twitter:
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    style: monokai
+
+rss: 20

@@ -1,0 +1,8 @@
+# .gitignore
+
+# examples
+/.hugo_version
+/public
+/resources
+/node_modules
+/.cache
