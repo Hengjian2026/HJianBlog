@@ -34,6 +34,11 @@ jobs:
           hugo-version: '0.147.8'
           extended: true
 
+      - name: Fix invalid dates in front matter
+        run: |
+          find content/posts -name "index.md" -exec sed -i 's/date: 2024-20-25/date: 2024-12-25/g' {} +
+          echo "=== Fixed invalid dates ==="
+
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
