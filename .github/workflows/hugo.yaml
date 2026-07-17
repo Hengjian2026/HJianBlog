@@ -49,16 +49,20 @@ jobs:
           echo "=== Build output ==="
           ls -la public/
 
-      - name: Configure Tencent Cloud COS CLI
-        uses: twbs/action-setup-coscli@v1
-        with:
-          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
-          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
-          cos_base_url: "https://${{ secrets.TENCENT_BUCKET }}.cos.${{ secrets.TENCENT_REGION }}.myqcloud.com"
+      - name: Install coscmd
+        run: |
+          pip install coscmd
+
+      - name: Configure coscmd
+        run: |
+          coscmd config \
+            -a ${{ secrets.TENCENT_SECRET_ID }} \
+            -s ${{ secrets.TENCENT_SECRET_KEY }} \
+            -b ${{ secrets.TENCENT_BUCKET }} \
+            -r ${{ secrets.TENCENT_REGION }}
 
       - name: Upload to COS
         run: |
           echo "=== Uploading to COS ==="
-          coscli cp -r ./public cos://${{ secrets.TENCENT_BUCKET }}/
+          coscmd upload -r ./public /
           echo "=== Upload complete ==="
-          echo "Site URL: https://${{ secrets.TENCENT_BUCKET }}.${{ secrets.TENCENT_REGION }}.cos.myqcloud.com"
