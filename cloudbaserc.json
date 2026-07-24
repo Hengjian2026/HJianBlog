@@ -1,0 +1,18 @@
+{
+  "envId": "hjian-blog-d6gy567xfbdddb2e8",
+  "framework": {
+    "plugins": {
+      "client": {
+        "use": "@cloudbase/framework-plugin-website",
+        "inputs": {
+          "entry": "public",
+          "index": "index.html",
+          "error": "404.html",
+          "env": {
+            "CI": "true"
+          }
+        }
+      }
+    }
+  }
+}

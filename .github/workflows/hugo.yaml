@@ -1,4 +1,10 @@
-# Build Hugo site and upload to Tencent Cloud COS
+# Build Hugo site and deploy to Tencent Cloud (COS + CloudBase)
+#
+# Trigger: push to main branch
+# Environment: Ubuntu 24.04, Hugo 0.147.8 (extended)
+# Targets:
+#   1. COS (Object Storage) — via coscmd
+#   2. CloudBase Static Website Hosting — via cloudbase-cli
 
 name: Build and Deploy to Tencent Cloud
 
@@ -6,7 +12,6 @@ on:
   push:
     branches:
       - main
-
   workflow_dispatch:
 
 permissions:
@@ -31,7 +36,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.147.8'
+          hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
 
       - name: Fix invalid dates in front matter
@@ -50,13 +55,13 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "https://hjian.online/"
+            --baseURL "https://hjian-blog-d6gy567xfbdddb2e8-1391215067.tcloudbaseapp.com"
           echo "=== Build output ==="
           ls -la public/
 
+      # ── Deploy to COS (existing) ──────────────────────
       - name: Install coscmd
-        run: |
-          pip install coscmd
+        run: pip install coscmd
 
       - name: Configure coscmd
         run: |
@@ -71,3 +76,14 @@ jobs:
           echo "=== Uploading to COS ==="
           coscmd upload -r ./public /
           echo "=== Upload complete ==="
+
+      # ── Deploy to CloudBase Static Hosting (new) ──────
+      - name: Install CloudBase CLI
+        run: npm install -g @cloudbase/cli
+
+      - name: Deploy to CloudBase Static Hosting
+        run: |
+          cloudbase hosting deploy ./public / -e hjian-blog-d6gy567xfbdddb2e8 \
+            --apiKeyId ${{ secrets.TENCENT_SECRET_ID }} \
+            --apiKey ${{ secrets.TENCENT_SECRET_KEY }}
+          echo "=== CloudBase deploy complete ==="
