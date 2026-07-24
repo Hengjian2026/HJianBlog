@@ -1,12 +1,13 @@
-# Build Hugo site and deploy to Tencent Cloud (COS + CloudBase)
+# Build Hugo site and deploy to GitHub Pages + Tencent Cloud
 #
 # Trigger: push to main branch
 # Environment: Ubuntu 24.04, Hugo 0.147.8 (extended)
 # Targets:
-#   1. COS (Object Storage) — via coscmd
-#   2. CloudBase Static Website Hosting — via cloudbase-cli
+#   1. GitHub Pages
+#   2. COS (Object Storage) — via coscmd
+#   3. CloudBase Static Website Hosting — via cloudbase-cli
 
-name: Build and Deploy to Tencent Cloud
+name: Build and Deploy
 
 on:
   push:
@@ -16,6 +17,11 @@ on:
 
 permissions:
   contents: read
+
+# Allow only one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -55,16 +61,28 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "https://hjian-blog-d6gy567xfbdddb2e8-1391215067.tcloudbaseapp.com"
+            --baseURL "https://hengjian2026.github.io/HJianBlog/"
           echo "=== Build output ==="
           ls -la public/
 
       - name: Upload public/ as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: public
           path: public/
-          retention-days: 1
+
+  deploy-pages:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   deploy-cos:
     needs: build
@@ -73,7 +91,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: public
+          name: github-pages
           path: public
 
       - name: Install coscmd
@@ -102,7 +120,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: public
+          name: github-pages
           path: public
 
       - name: Install CloudBase CLI
@@ -115,7 +133,6 @@ jobs:
           CLOUDBASE_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
           echo "=== Deploying to CloudBase ==="
-          # Login via environment variables, then deploy
           cloudbase login --apiKeyId "$CLOUDBASE_SECRET_ID" --apiKey "$CLOUDBASE_SECRET_KEY"
           cloudbase hosting deploy ./public / -e hjian-blog-d6gy567xfbdddb2e8
           echo "=== CloudBase deploy complete ==="
