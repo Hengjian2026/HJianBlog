@@ -110,9 +110,12 @@ jobs:
 
       - name: Deploy to CloudBase Static Hosting
         timeout-minutes: 15
+        env:
+          CLOUDBASE_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          CLOUDBASE_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
           echo "=== Deploying to CloudBase ==="
-          cloudbase hosting deploy ./public / -e hjian-blog-d6gy567xfbdddb2e8 \
-            --apiKeyId ${{ secrets.TENCENT_SECRET_ID }} \
-            --apiKey ${{ secrets.TENCENT_SECRET_KEY }}
+          # Login via environment variables, then deploy
+          cloudbase login --apiKeyId "$CLOUDBASE_SECRET_ID" --apiKey "$CLOUDBASE_SECRET_KEY"
+          cloudbase hosting deploy ./public / -e hjian-blog-d6gy567xfbdddb2e8
           echo "=== CloudBase deploy complete ==="
