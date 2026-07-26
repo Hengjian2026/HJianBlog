@@ -1,21 +1,5 @@
 {{ define "main" }}
 
-{{/* 计算专栏名称 */}}
-{{ $columnName := "" }}
-{{ $columnSlug := "" }}
-{{ $columns := dict
-  "drg-dip" "DRG/DIP 付费"
-  "hospital-accreditation" "医院评审评价"
-  "ai-hospital" "AI + 医院管理"
-  "operations-analytics" "运营数据分析"
-  "tools-methods" "工具与方法"
-}}
-{{ $allTags := .Params.tags | default slice }}
-{{ range $slug, $label := $columns }}
-  {{ $matched := where $allTags "in" (slice "DRG" "DIP" "drg" "dip") }}
-  {{/* 简化的匹配逻辑 - 前端 JS 做完整匹配 */}}
-{{ end }}
-
 <article class="post-single">
   <header class="post-header">
     {{ partial "breadcrumbs.html" . }}
