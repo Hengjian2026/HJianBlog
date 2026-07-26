@@ -50,6 +50,7 @@ params:
   ShowPostDate: true
   ShowWordCount: true
   ShowToc: true
+  ShowLastMod: true
   TocOpen: false
   ShowBreadcrumb: false
   ShowCodeCopyButton: true

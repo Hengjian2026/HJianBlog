@@ -27,6 +27,7 @@
         if (searchText.indexOf(COLUMNS[key].tags[i]) !== -1) {
           badge.textContent = COLUMNS[key].label;
           badge.dataset.column = key;
+          badge.style.display = 'inline-block';
           if (meta) meta.parentNode.insertBefore(badge, meta);
           return;
         }
