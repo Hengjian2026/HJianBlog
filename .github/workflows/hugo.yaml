@@ -61,7 +61,7 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "https://hengjian2026.github.io/HJianBlog/"
+            --baseURL "https://hjian.online/"
           echo "=== Build output ==="
           ls -la public/
 
