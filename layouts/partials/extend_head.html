@@ -4,3 +4,36 @@
   {{- $colFilter := resources.Get "js/column-filter.js" | resources.Minify }}
   <script defer src="{{ $colFilter.RelPermalink }}"></script>
 {{- end }}
+{{- /* 文章页专栏 badge JS 逻辑 */}}
+{{- if .IsPage }}
+<script>
+(function() {
+  const COLUMNS = {
+    'drg-dip': { label: 'DRG/DIP 付费', tags: ['drg','dip','病种','分组','付费改革','drgs','盈亏','倍率','drg付费','dip付费'] },
+    'hospital-accreditation': { label: '医院评审评价', tags: ['评审','国考','等级评审','绩效考核','三级医院','质量安全','医疗质量'] },
+    'ai-hospital': { label: 'AI + 医院管理', tags: ['ai','大模型','智能体','人工智能','llm','claude','数据分析','ai赋能'] },
+    'operations-analytics': { label: '运营数据分析', tags: ['运营','可视化','分析','指标','仪表盘','dashboard','数据','运营分析'] },
+    'tools-methods': { label: '工具与方法', tags: ['ppt','工具','模板','排班','知识库','部署','excel'] }
+  };
+  var badge = document.querySelector('.post-column-badge');
+  var meta = document.querySelector('.post-meta');
+  if (badge) {
+    var tagsEl = document.querySelector('.post-tags');
+    var tags = tagsEl ? tagsEl.textContent.toLowerCase() : '';
+    var title = (document.querySelector('.post-title') || {}).textContent || '';
+    var searchText = tags + ' ' + title;
+    for (var key in COLUMNS) {
+      for (var i = 0; i < COLUMNS[key].tags.length; i++) {
+        if (searchText.indexOf(COLUMNS[key].tags[i]) !== -1) {
+          badge.textContent = COLUMNS[key].label;
+          badge.dataset.column = key;
+          if (meta) meta.parentNode.insertBefore(badge, meta);
+          return;
+        }
+      }
+    }
+    badge.style.display = 'none';
+  }
+})();
+</script>
+{{- end }}
