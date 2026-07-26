@@ -50,6 +50,10 @@
 
     {{- partial "related-posts.html" . }}
   </footer>
+
+  {{- if (.Param "comments") }}
+  {{- partial "comments.html" . }}
+  {{- end }}
 </article>
 
 {{- end }}

@@ -24,12 +24,22 @@ minify:
   disableXML: true
   minifyOutput: true
 
+# sitemap
+sitemap:
+  changefreq: weekly
+  filename: sitemap.xml
+  priority: 0.8
+
 menu:
   main:
     - identifier: archives
       name: 归档
       url: /archives/
       weight: 10
+    - identifier: tags
+      name: 标签
+      url: /tags/
+      weight: 15
     - identifier: about
       name: 关于
       url: /about/
@@ -91,7 +101,7 @@ params:
     clarity:
     goatCounter:
     buiAnalytics:
-  comments: false
+  comments: true
   search:
     enabled: false
     settings:
