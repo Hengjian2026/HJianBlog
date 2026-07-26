@@ -4,14 +4,21 @@
   {{ partial "brand-panel.html" . }}
 
   <div class="home-content">
-    {{/* 专栏导航 Tabs */}}
-    <div class="column-tabs">
-      <button class="column-tab active" data-column="all">全部</button>
-      <button class="column-tab" data-column="drg-dip">DRG/DIP 付费</button>
-      <button class="column-tab" data-column="hospital-accreditation">医院评审评价</button>
-      <button class="column-tab" data-column="ai-hospital">AI + 医院管理</button>
-      <button class="column-tab" data-column="operations-analytics">运营数据分析</button>
-      <button class="column-tab" data-column="tools-methods">工具与方法</button>
+    {{/* 搜索入口 + 专栏导航 Tabs */}}
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div class="column-tabs" style="margin-bottom:0;padding-bottom:0;border-bottom:none;">
+        <button class="column-tab active" data-column="all">全部</button>
+        <button class="column-tab" data-column="drg-dip">DRG/DIP 付费</button>
+        <button class="column-tab" data-column="hospital-accreditation">医院评审评价</button>
+        <button class="column-tab" data-column="ai-hospital">AI + 医院管理</button>
+        <button class="column-tab" data-column="operations-analytics">运营数据分析</button>
+        <button class="column-tab" data-column="tools-methods">工具与方法</button>
+      </div>
+      <a href="#" class="search-toggle" onclick="event.preventDefault();document.getElementById('search-overlay').style.display='block';">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        搜索
+        <kbd>Ctrl+K</kbd>
+      </a>
     </div>
 
     {{/* 文章卡片流 */}}
@@ -59,5 +66,22 @@
     {{- end }}
   </div>
 </div>
+
+{{/* 搜索弹窗 */}}
+<div id="search-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:999;">
+  <div style="max-width:640px;margin:80px auto;background:var(--theme);border-radius:var(--radius);padding:24px;">
+    <div id="search"></div>
+  </div>
+</div>
+
+<script>
+document.querySelector('.search-toggle')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('search-overlay').style.display = 'block';
+});
+document.getElementById('search-overlay')?.addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+</script>
 
 {{ end }}

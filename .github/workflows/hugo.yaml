@@ -65,6 +65,9 @@ jobs:
           echo "=== Build output ==="
           ls -la public/
 
+      - name: Index with Pagefind
+        run: npx pagefind --site public
+
       - name: Upload public/ as artifact
         uses: actions/upload-pages-artifact@v3
         with:

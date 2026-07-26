@@ -40,3 +40,17 @@
 {{- end }}
 {{- /* SEO 结构化数据 */}}
 {{- partial "seo-head.html" . -}}
+
+{{- /* Pagefind 搜索 */}}
+{{- $pagefindCSS := "" }}
+{{- if fileExists "/static/pagefind/pagefind-ui.css" }}
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js" defer></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  if (document.getElementById('search')) {
+    new PagefindUI({ element: "#search", showSubResults: true, showImages: false });
+  }
+});
+</script>
+{{- end }}
