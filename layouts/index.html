@@ -14,7 +14,7 @@
         <button class="column-tab" data-column="operations-analytics">运营数据分析</button>
         <button class="column-tab" data-column="tools-methods">工具与方法</button>
       </div>
-      <a href="#" class="search-toggle" onclick="event.preventDefault();document.getElementById('search-overlay').style.display='block';">
+      <a href="#" class="search-toggle" id="search-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         搜索
         <kbd>Ctrl+K</kbd>
@@ -75,7 +75,7 @@
 </div>
 
 <script>
-document.querySelector('.search-toggle')?.addEventListener('click', function(e) {
+document.getElementById('search-btn')?.addEventListener('click', function(e) {
   e.preventDefault();
   document.getElementById('search-overlay').style.display = 'block';
 });

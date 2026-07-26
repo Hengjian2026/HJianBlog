@@ -41,9 +41,8 @@
 {{- /* SEO 结构化数据 */}}
 {{- partial "seo-head.html" . -}}
 
-{{- /* Pagefind 搜索 */}}
-{{- $pagefindCSS := "" }}
-{{- if fileExists "/static/pagefind/pagefind-ui.css" }}
+{{- /* Pagefind 搜索 — 使用相对路径检查 public/ 中的生成文件 */}}
+{{- if fileExists "static/pagefind/pagefind-ui.css" }}
 <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 <script src="/pagefind/pagefind-ui.js" defer></script>
 <script>
