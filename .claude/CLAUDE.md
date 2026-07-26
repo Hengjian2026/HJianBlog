@@ -31,3 +31,14 @@ hugo --gc --minify # 生产构建
 ## 编码规范
 - 中文内容为主，技术术语保留英文
 - frontmatter 包含 title / date / tags / categories
+
+## 发布流程
+```bash
+# 新建文章草稿
+./scripts/new-post.sh "文章标题"
+# → 在 content/posts/ 下创建文章目录和 index.md
+
+# 发布（构建 + 索引 + 提交 + 推送）
+./scripts/publish.sh "feat: 提交说明"
+# → 自动构建验证 → Pagefind 索引 → git push
+```
