@@ -38,7 +38,19 @@ hugo --gc --minify # 生产构建
 ./scripts/new-post.sh "文章标题"
 # → 在 content/posts/ 下创建文章目录和 index.md
 
-# 发布（构建 + 索引 + 提交 + 推送）
+# 写完后发布到博客
 ./scripts/publish.sh "feat: 提交说明"
 # → 自动构建验证 → Pagefind 索引 → git push
+
+# 同步到微信公众号（发布博客后运行）
+./scripts/wechat-format.sh content/posts/2026-07-26_文章标题/index.md
+# → 自动复制公众号格式到剪贴板
+# → 粘贴到 https://mp.weixin.qq.com 发布
 ```
+
+## 完整工作流（推荐）
+1. `./scripts/new-post.sh "标题"` — 新建文章
+2. 用 VS Code 写 Markdown
+3. `./scripts/publish.sh "feat: 标题"` — 发布到博客
+4. `./scripts/wechat-format.sh content/posts/.../index.md` — 转为公众号格式
+5. 粘贴到公众号后台 → 发布
