@@ -1,0 +1,6 @@
+{{- /* 自定义 CSS 已通过 assets/css/extended/ 自动加载 */}}
+{{- /* 首页专用脚本 */}}
+{{- if .IsHome }}
+  {{- $colFilter := resources.Get "js/column-filter.js" | resources.Minify }}
+  <script defer src="{{ $colFilter.RelPermalink }}"></script>
+{{- end }}

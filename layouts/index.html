@@ -1,0 +1,63 @@
+{{ define "main" }}
+
+<div class="home-wrapper">
+  {{ partial "brand-panel.html" . }}
+
+  <div class="home-content">
+    {{/* 专栏导航 Tabs */}}
+    <div class="column-tabs">
+      <button class="column-tab active" data-column="all">全部</button>
+      <button class="column-tab" data-column="drg-dip">DRG/DIP 付费</button>
+      <button class="column-tab" data-column="hospital-accreditation">医院评审评价</button>
+      <button class="column-tab" data-column="ai-hospital">AI + 医院管理</button>
+      <button class="column-tab" data-column="operations-analytics">运营数据分析</button>
+      <button class="column-tab" data-column="tools-methods">工具与方法</button>
+    </div>
+
+    {{/* 文章卡片流 */}}
+    <div class="column-articles">
+      {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+      {{- $paginator := .Paginate $pages }}
+
+      {{- range $index, $page := $paginator.Pages }}
+      {{- $class := "post-entry" }}
+      <article class="{{ $class }}"
+        data-tags="{{ with $page.Params.tags }}{{ delimit . " " }}{{ end }}"
+        data-title="{{ $page.Title }}">
+        <header class="entry-header">
+          <h2 class="entry-hint-parent">
+            {{- $page.Title }}
+          </h2>
+        </header>
+        <div class="entry-content">
+          <p>{{ $page.Summary | plainify | htmlUnescape }}{{ if $page.Truncated }}...{{ end }}</p>
+        </div>
+        <footer class="entry-footer">
+          {{- partial "post_meta.html" $page -}}
+        </footer>
+        <a class="entry-link" aria-label="post link to {{ $page.Title | plainify }}" href="{{ $page.Permalink }}"></a>
+      </article>
+      {{- end }}
+    </div>
+
+    {{/* 分页 */}}
+    {{- if gt $paginator.TotalPages 1 }}
+    <footer class="page-footer">
+      <nav class="pagination">
+        {{- if $paginator.HasPrev }}
+        <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">
+          «&nbsp;{{ i18n "prev_page" | default "上一页" }}
+        </a>
+        {{- end }}
+        {{- if $paginator.HasNext }}
+        <a class="next" href="{{ $paginator.Next.URL | absURL }}">
+          {{ i18n "next_page" | default "下一页" }}&nbsp;»
+        </a>
+        {{- end }}
+      </nav>
+    </footer>
+    {{- end }}
+  </div>
+</div>
+
+{{ end }}
